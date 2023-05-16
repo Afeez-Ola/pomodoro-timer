@@ -44,7 +44,7 @@ canvas.grid(column=1, row=1)
 header = Label(text="Timer", foreground=GREEN, font=(FONT_NAME, 45, "bold"), bg=YELLOW)
 header.grid(column=1, row=0)
 
-start_button = Button(text="Start", command=lambda: count_down(30))
+start_button = Button(text="Start", command=lambda: count_down(5*60))
 start_button.grid(column=0, row=2, ipadx=8, ipady=2)
 
 reset_button = Button(text="Reset")
