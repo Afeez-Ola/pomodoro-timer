@@ -18,3 +18,20 @@ LONG_BREAK_MIN = 20
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Pomodoro Tracker")
+
+window.minsize(width=500, height=300)
+
+# window background color
+window.configure(bg=YELLOW)
+
+
+
+
+
+
+
+
+
+
+
+window.mainloop()
