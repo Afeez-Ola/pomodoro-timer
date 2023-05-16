@@ -24,7 +24,7 @@ def timer():
 
     for i in range(12):
         reps += i
-        if reps % 2 != 0:
+        if reps % 2 == 0:
             count_down(work_sec)
         elif reps == 8:
             count_down(long_break_sec)
@@ -67,7 +67,7 @@ canvas.grid(column=1, row=1)
 header = Label(text="Timer", foreground=GREEN, font=(FONT_NAME, 45, "bold"), bg=YELLOW)
 header.grid(column=1, row=0)
 
-start_button = Button(text="Start", command=lambda: timer)
+start_button = Button(text="Start", command=timer)
 start_button.grid(column=0, row=2, ipadx=8, ipady=2)
 
 reset_button = Button(text="Reset")
