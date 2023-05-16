@@ -7,29 +7,39 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
-LONG_BREAK_MIN = 20
+WORK_MIN = 5
+SHORT_BREAK_MIN = 1
+LONG_BREAK_MIN = 3
 reps = 0
-
+seconds = 60
+timer = None
 
 # ---------------------------- TIMER RESET ------------------------------- #
+def reset_timer():
+    window.after_cancel(timer)
+    global reps
+    reps = 0
+    header.config(text="Timer")
+    canvas.itemconfig(count_text, text=f"00:00")
+    check_mark.config(text="")
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
-def timer():
+def start_timer():
     global reps
-    work_sec = WORK_MIN * 10
-    short_break_sec = SHORT_BREAK_MIN * 10
-    long_break_sec = LONG_BREAK_MIN * 10
+    reps += 1
+    work_sec = WORK_MIN * seconds
+    short_break_sec = SHORT_BREAK_MIN * seconds
+    long_break_sec = LONG_BREAK_MIN * seconds
 
-    for i in range(12):
-        reps += i
-        if reps % 2 == 0:
-            count_down(work_sec)
-        elif reps == 8:
-            count_down(long_break_sec)
-        else:
-            count_down(short_break_sec)
+    if reps % 8 == 0:
+        header.config(text="Long Break",fg=RED)
+        count_down(long_break_sec)
+    elif reps % 2 == 0:
+        header.config(text="Short Break",fg=PINK)
+        count_down(short_break_sec)
+    else:
+        header.config(text="Work",fg=GREEN)
+        count_down(work_sec)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
@@ -43,9 +53,15 @@ def count_down(count):
         canvas.itemconfig(count_text, text=f"0{count_minute}:0{count_seconds}")
     else:
         canvas.itemconfig(count_text, text=f"0{count_minute}:{count_seconds}")
-    # print(count_seconds)
     if count > 0:
-        window.after(1000, count_down, count - 1)
+        global timer
+        timer = window.after(10, count_down, count - 1)
+    else:
+        start_timer()
+        mark = ""
+        for i in range(math.floor(reps/2)):
+            mark += "✔"
+        check_mark.config(text=mark)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -67,13 +83,13 @@ canvas.grid(column=1, row=1)
 header = Label(text="Timer", foreground=GREEN, font=(FONT_NAME, 45, "bold"), bg=YELLOW)
 header.grid(column=1, row=0)
 
-start_button = Button(text="Start", command=timer)
+start_button = Button(text="Start", command=start_timer)
 start_button.grid(column=0, row=2, ipadx=8, ipady=2)
 
-reset_button = Button(text="Reset")
+reset_button = Button(text="Reset",command=reset_timer)
 reset_button.grid(column=2, row=2, ipadx=8, ipady=2)
 
-check_mark = Label(text="✔", foreground=GREEN, font=(FONT_NAME, 12, "bold"), bg=YELLOW)
+check_mark = Label( foreground=GREEN, font=(FONT_NAME, 12, "bold"), bg=YELLOW)
 check_mark.grid(column=1, row=3, ipadx=8, ipady=2)
 
 window.mainloop()
