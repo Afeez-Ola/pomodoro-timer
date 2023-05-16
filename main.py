@@ -28,6 +28,7 @@ canvas = Canvas(width=200, height=224)
 
 bg_image = PhotoImage(file="tomato.png")
 canvas.create_image(103, 112, image=bg_image)
+canvas.create_text(103,112,text="00.00")
 canvas.pack()
 
 window.mainloop()
