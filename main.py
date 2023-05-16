@@ -20,7 +20,14 @@ LONG_BREAK_MIN = 20
 def count_down(count):
     count_minute = math.floor(count / 60)
     count_seconds = count%60
-    canvas.itemconfig(count_text, text=f"0{count_minute}:{count_seconds}")
+
+    if count_seconds == 0:
+        canvas.itemconfig(count_text, text=f"0{count_minute}:00")
+    if count_seconds < 10:
+        canvas.itemconfig(count_text, text=f"0{count_minute}:0{count_seconds}")
+    else:
+        canvas.itemconfig(count_text, text=f"0{count_minute}:{count_seconds}")
+    print(count_seconds)
     if count > 0:
         window.after(1000, count_down, count - 1)
 
